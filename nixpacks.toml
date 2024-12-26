@@ -1,6 +1,0 @@
-[phases.setup]
-apt_packages = ["tesseract-ocr"]
-
-[phases.build]
-commands = ["pip install -r requirements.txt"]
-

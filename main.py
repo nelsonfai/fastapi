@@ -11,8 +11,6 @@ from youtube_transcript_api._errors import TranscriptsDisabled, VideoUnavailable
 app = FastAPI()
 
 
-
-
 # Models for requests
 class OCRRequest(BaseModel):
     image_url: HttpUrl
