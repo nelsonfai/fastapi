@@ -6,19 +6,11 @@ from io import BytesIO
 import pytesseract
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import TranscriptsDisabled, VideoUnavailable, NoTranscriptFound
-import subprocess
 
 
 app = FastAPI()
 
 
-@app.get("/debug/tesseract")
-async def debug_tesseract():
-    try:
-        output = subprocess.run(["tesseract", "--version"], capture_output=True, text=True)
-        return {"tesseract_version": output.stdout}
-    except FileNotFoundError:
-        return {"error": "Tesseract not found"}
 
 
 # Models for requests
