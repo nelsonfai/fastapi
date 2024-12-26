@@ -1,5 +1,6 @@
 [phases.setup]
 nixPkgs = [
+  "python3",
   "tesseract5",
   "poppler_utils",
   "ghostscript",
@@ -8,7 +9,7 @@ nixPkgs = [
 
 [phases.build]
 cmds = [
-  "python -m venv /opt/venv",
+  "python3 -m venv /opt/venv",
   ". /opt/venv/bin/activate && pip install -r requirements.txt"
 ]
 
