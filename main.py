@@ -6,6 +6,8 @@ from io import BytesIO
 import pytesseract
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import TranscriptsDisabled, VideoUnavailable, NoTranscriptFound
+import subprocess
+
 
 app = FastAPI()
 
