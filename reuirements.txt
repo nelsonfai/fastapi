@@ -1,0 +1,5 @@
+fastapi==0.100.0
+hypercorn==0.14.4
+pillow==11.0.0
+pytesseract==0.3.13
+youtube-transcript-api==0.6.3
