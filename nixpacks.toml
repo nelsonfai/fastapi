@@ -1,15 +1,2 @@
 [phases.setup]
-nixPkgs = [
-  "python311",
-  "python311Packages.pip",
-  "tesseract5",
-  "poppler_utils",
-  "ghostscript",
-  "gcc"
-]
-
-[phases.install]
-cmds = ["python3 -m pip install -r requirements.txt"]
-
-[start]
-cmd = "hypercorn main:app --bind \"[::]:$PORT\""
+apt_pkgs = ["tesseract-ocr"]
