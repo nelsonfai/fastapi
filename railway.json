@@ -2,9 +2,13 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "apt-get update && apt-get install -y tesseract-ocr"
+    "buildCommand": "apt-get update && apt-get install -y tesseract-ocr && pip install -r requirements.txt"
   },
   "deploy": {
-    "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3,
+    "startCommand": "hypercorn main:app --bind \"[::]:$PORT\"",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 100
   }
 }

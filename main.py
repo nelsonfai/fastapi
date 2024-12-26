@@ -20,6 +20,11 @@ class TranscriptRequest(BaseModel):
     video_id: str
     languages: list = ["en"]
 
+
+@app.get("/")
+def health_check():
+    return {"status": "healthy"}
+
 @app.post("/extract-text")
 def extract_text(request: OCRRequest):
     """
