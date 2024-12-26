@@ -1,17 +1,14 @@
 [phases.setup]
 nixPkgs = [
-  "python3",
+  "python311",
   "tesseract5",
   "poppler_utils",
   "ghostscript",
   "gcc"
 ]
 
-[phases.build]
-cmds = [
-  "python3 -m venv /opt/venv",
-  ". /opt/venv/bin/activate && pip install -r requirements.txt"
-]
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
 
 [start]
 cmd = "hypercorn main:app --bind \"[::]:$PORT\""
