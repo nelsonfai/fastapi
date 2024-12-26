@@ -1,0 +1,16 @@
+[phases.setup]
+nixPkgs = [
+  "tesseract5",
+  "poppler_utils",
+  "ghostscript",
+  "gcc"
+]
+
+[phases.build]
+cmds = [
+  "python -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt"
+]
+
+[start]
+cmd = "hypercorn main:app --bind \"[::]:$PORT\""
