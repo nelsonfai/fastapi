@@ -13,6 +13,7 @@ app = FastAPI()
 class OCRRequest(BaseModel):
     image_url: HttpUrl
 
+
 class TranscriptRequest(BaseModel):
     video_id: str
     languages: list = ["en"]
