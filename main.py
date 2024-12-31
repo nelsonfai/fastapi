@@ -18,6 +18,7 @@ class OCRRequest(BaseModel):
 
 class TranscriptRequest(BaseModel):
     video_id: str
+    languages: list = ["en"]
 
 
 @app.get("/")
@@ -51,28 +52,28 @@ def extract_text(request: OCRRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
+
 @app.post("/transcript")
 def get_transcript(request: TranscriptRequest):
     """
-    Retrieve and group YouTube video transcripts into 20-second segments using the video's default language.
+    Retrieve and group YouTube video transcripts into 20-second segments.
     """
     try:
-        # Attempt to fetch the transcript in the video's default language
-        transcript = YouTubeTranscriptApi.get_transcript(request.video_id)
-
-        # Group the transcript into 20-second segments
+        transcript = YouTubeTranscriptApi.get_transcript(request.video_id, languages=request.languages)
+        
         grouped_transcript = []
         current_segment = {"start": 0, "end": 20, "text": ""}
-
+        
         for entry in transcript:
-            entry_start = entry["start"]
-
-            if entry_start >= current_segment["end"]:
+            entry_start = entry['start']
+            entry_end = entry['start'] + entry['duration']
+            
+            if entry_start >= current_segment['end']:
                 grouped_transcript.append(current_segment)
-                current_segment = {"start": current_segment["end"], "end": current_segment["end"] + 20, "text": ""}
-
-            current_segment["text"] += entry["text"] + " "
-
+                current_segment = {"start": current_segment['end'], "end": current_segment['end'] + 20, "text": ""}
+            
+            current_segment['text'] += (entry['text'] + " ")
+        
         grouped_transcript.append(current_segment)
         return grouped_transcript
 
@@ -81,6 +82,6 @@ def get_transcript(request: TranscriptRequest):
     except VideoUnavailable:
         raise HTTPException(status_code=400, detail="The video is unavailable.")
     except NoTranscriptFound:
-        raise HTTPException(status_code=404, detail="No transcript found for this video.")
+        raise HTTPException(status_code=404, detail="No transcript found for this video in the requested languages.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
