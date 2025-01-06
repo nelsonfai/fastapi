@@ -59,7 +59,14 @@ def get_transcript(request: TranscriptRequest):
     Retrieve and group YouTube video transcripts into 20-second segments.
     """
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(request.video_id, languages=request.languages)
+        #transcript = YouTubeTranscriptApi.get_transcript(request.video_id, languages=request.languages)
+
+        user_languages = request.languages
+        ordered_languages = list(dict.fromkeys(user_languages + ["en", "de"]))
+
+        # Fetch the transcript using the reordered language list
+        transcript = YouTubeTranscriptApi.get_transcript(request.video_id, languages=ordered_languages)
+
         
         grouped_transcript = []
         current_segment = {"start": 0, "end": 20, "text": ""}
